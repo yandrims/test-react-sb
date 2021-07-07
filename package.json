@@ -1,0 +1,78 @@
+{
+	"name": "test-react-sb",
+	"description": "Stockbit React Dev Test",
+	"keywords": [
+		"web",
+		"react"
+	],
+	"version": "0.0.1",
+	"license": "UNLICENSED",
+	"private": true,
+	"author": {
+		"name": "Yandri",
+		"email": "yandrims@gmail.com"
+	},
+	"contributors": [
+		"yandri <yandrims@gmail.com>"
+	],
+	"scripts": {
+		"next": "next",
+		"build": "next build",
+		"analyze": "ANALYZE=true yarn build",
+		"run:local": "PORT=3000 ENV=local API=stg node server/app.js",
+		"run:stg": "PORT=3010 ENV=stg API=stg node server/app.js",
+		"run:production": "PORT=3020 ENV=production API=production node server/app.js",
+		"deploy:local": "yarn build; pm2 startOrRestart config/pm2/pm2.local.config.js --env local",
+		"deploy:stg": "yarn build; pm2 startOrRestart config/pm2/pm2.stg.config.js --env stg",
+		"deploy:production": "yarn build; pm2 startOrRestart config/pm2/pm2.production.config.js --env production"
+	},
+	"engines": {
+		"node": "^12.16.1"
+	},
+	"dependencies": {
+		"@next/bundle-analyzer": "^9.3.6",
+		"@zeit/next-sass": "^1.0.1",
+		"axios": "^0.19.2",
+		"body-parser": "^1.19.0",
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"eslint-import-resolver-webpack": "^0.12.1",
+		"express": "^4.17.1",
+		"js-cookie": "^2.2.1",
+		"mobile-detect": "^1.4.4",
+		"next": "9.3.6",
+		"next-redux-saga": "4.1.2",
+		"next-redux-wrapper": "6.0.0-rc.7",
+		"node-sass": "^4.14.0",
+		"prop-types": "^15.7.2",
+		"react": "16.13.1",
+		"react-dom": "16.13.1",
+		"react-html-parser": "2.0.2",
+		"react-redux": "7.2.0",
+		"redux": "4.0.5",
+		"redux-saga": "1.1.3",
+		"y-ui": "git+https://github.com/yandrims/core-react-ui.git"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.9.6",
+		"@babel/plugin-proposal-class-properties": "^7.8.3",
+		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
+		"@babel/polyfill": "^7.8.7",
+		"@babel/preset-env": "^7.9.6",
+		"@babel/preset-react": "^7.9.4",
+		"babel-eslint": "^10.1.0",
+		"babel-plugin-styled-components": "^1.10.7",
+		"boxen": "^4.2.0",
+		"date-fns": "^2.22.1",
+		"eslint": "^6.8.0",
+		"eslint-config-airbnb": "^18.1.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-import": "^2.20.2",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-prettier": "^3.1.3",
+		"eslint-plugin-react": "^7.19.0",
+		"prettier": "^2.0.5",
+		"redux-devtools-extension": "^2.13.8",
+		"styled-components": "4.4.1"
+	}
+}
