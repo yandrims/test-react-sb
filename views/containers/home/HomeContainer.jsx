@@ -25,6 +25,8 @@ function Index({
 	const { q = '', year = null } = queryParams;
 	const [searchKeyword, setSearchKeyword] = useState(q);
 	const [searchYear, setSearchYear] = useState(parseInt(year));
+	const [isModalPreviewImageShow, setModalPreviewImageShow] = useState(false);
+	const [previewImageUrl, setPreviewImageUrl] = useState('');
 	const minimumKeyword = 3;
 
 	useEffect(() => {
@@ -55,6 +57,10 @@ function Index({
 		applySearch,
 		resetSearch,
 		minimumKeyword,
+		isModalPreviewImageShow,
+		previewImageUrl,
+		openModalPreviewImage,
+		closeModalPreviewImage,
 	};
 
 	return <HomeTemplateDesktop {...props} />;
@@ -110,6 +116,16 @@ function Index({
 		setSearchYear(null);
 		const homeUrl = ROUTES.INDEX.url;
 		Router.push({ pathname: homeUrl, query: {} }, homeUrl);
+	}
+
+	function openModalPreviewImage(e) {
+		setModalPreviewImageShow(true);
+		setPreviewImageUrl(e.target.src);
+	}
+
+	function closeModalPreviewImage() {
+		setModalPreviewImageShow(false);
+		setPreviewImageUrl('');
 	}
 }
 

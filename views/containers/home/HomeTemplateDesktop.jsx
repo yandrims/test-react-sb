@@ -15,6 +15,7 @@ import STATUS_TYPES from '../../../constants/statusTypes';
 
 /** components */
 import Movie from '../../components/Movie';
+import ModalPreviewImage from '../../components/ModalPreviewImage';
 
 const MyBox = styled.div`
 	padding: 10px 0 0;
@@ -27,6 +28,7 @@ const MyBox = styled.div`
 `;
 
 const TextField = styled.input`
+	background: #fff;
 	padding: 0 15px;
 	border-radius: 5px;
 	display: block;
@@ -37,6 +39,7 @@ const TextField = styled.input`
 `;
 
 const SelectDropdown = styled.select`
+	background: #fff;
 	padding: 0 15px;
 	border-radius: 5px;
 	display: block;
@@ -69,150 +72,166 @@ function Index({
 	onChangeSearchYear,
 	resetSearch,
 	minimumKeyword,
+	isModalPreviewImageShow,
+	previewImageUrl,
+	openModalPreviewImage,
+	closeModalPreviewImage,
 }) {
 	return (
-		<Box py={5}>
-			{storeMovieList.status === STATUS_TYPES.ERROR && (
-				<Container>{storeMovieList.error}</Container>
-			)}
-			{storeMovieList.status === STATUS_TYPES.LOADING && (
-				<Loading>
-					<Loader />
-				</Loading>
-			)}
-			<MyBox>
-				<Container>
-					<Row space={2}>
-						<Col
-							col={12}
-							mb={4}
-							responsive={{
-								xxs: {
-									col: 12,
-								},
-								xs: {
-									col: 12,
-								},
-								sm: {
-									col: 7,
-								},
-								md: {
-									col: 8,
-								},
-								lg: {
-									col: 9,
-								},
-								xl: {
-									col: 10,
-								},
-								xxl: {},
-							}}
-						>
-							<TextField
-								type="text"
-								placeholder="Search movie name"
-								value={searchKeyword}
-								onChange={onChangeSearchKeyword}
-							/>
-						</Col>
-						<Col
-							col={12}
-							mb={4}
-							responsive={{
-								xxs: {
-									col: 12,
-								},
-								xs: {
-									col: 12,
-								},
-								sm: {
-									col: 5,
-								},
-								md: {
-									col: 4,
-								},
-								lg: {
-									col: 3,
-								},
-								xl: {
-									col: 2,
-								},
-								xxl: {},
-							}}
-						>
-							<SelectDropdown
-								onChange={onChangeSearchYear}
-								value={searchYear || ''}
-							>
-								<option value="">Select Year</option>
-								{years.map((item, index) => (
-									<option key={index} value={item}>
-										{item}
-									</option>
-								))}
-							</SelectDropdown>
-						</Col>
-					</Row>
-				</Container>
-			</MyBox>
-			<Container>
-				{searchKeyword.length >= minimumKeyword ? (
-					<>
-						{(storeMovieList.status === STATUS_TYPES.SUCCESS && (
-							<>
-								{(storeMovieList.data.length && (
-									<Row space={2}>
-										<Col col={12} mb={5} textAlign="right">
-											<Link onClick={resetSearch}>Reset</Link>
-										</Col>
-										{storeMovieList.data.map((item, index) => (
-											<Col
-												key={index}
-												col={12}
-												mb={4}
-												responsive={{
-													xxs: {
-														col: 12,
-													},
-													xs: {
-														col: 6,
-													},
-													sm: {
-														col: 4,
-													},
-													md: {},
-													lg: {
-														col: 3,
-													},
-													xl: {},
-													xxl: {},
-												}}
-											>
-												<Movie
-													id={item.imdbID}
-													title={item.Title}
-													year={item.Year}
-													type={item.Type}
-													imageUrl={item.Poster}
-													dispatch={dispatch}
-												/>
-											</Col>
-										))}
-									</Row>
-								)) || (
-									<>
-										No Movie Found! <Link onClick={resetSearch}>Reset</Link>
-									</>
-								)}
-							</>
-						)) ||
-							null}
-					</>
-				) : (
-					<>Enter the keyword to find movie</>
+		<>
+			<Box py={5}>
+				{storeMovieList.status === STATUS_TYPES.ERROR && (
+					<Container>{storeMovieList.error}</Container>
 				)}
-			</Container>
-		</Box>
+				{storeMovieList.status === STATUS_TYPES.LOADING && (
+					<Loading>
+						<Loader />
+					</Loading>
+				)}
+				<MyBox>
+					<Container>
+						<Row space={2}>
+							<Col
+								col={12}
+								mb={4}
+								responsive={{
+									xxs: {
+										col: 12,
+									},
+									xs: {
+										col: 12,
+									},
+									sm: {
+										col: 7,
+									},
+									md: {
+										col: 8,
+									},
+									lg: {
+										col: 9,
+									},
+									xl: {
+										col: 10,
+									},
+									xxl: {},
+								}}
+							>
+								<TextField
+									type="text"
+									placeholder="Search movie name"
+									value={searchKeyword}
+									onChange={onChangeSearchKeyword}
+								/>
+							</Col>
+							<Col
+								col={12}
+								mb={4}
+								responsive={{
+									xxs: {
+										col: 12,
+									},
+									xs: {
+										col: 12,
+									},
+									sm: {
+										col: 5,
+									},
+									md: {
+										col: 4,
+									},
+									lg: {
+										col: 3,
+									},
+									xl: {
+										col: 2,
+									},
+									xxl: {},
+								}}
+							>
+								<SelectDropdown
+									onChange={onChangeSearchYear}
+									value={searchYear || ''}
+								>
+									<option value="">Select Year</option>
+									{years.map((item, index) => (
+										<option key={index} value={item}>
+											{item}
+										</option>
+									))}
+								</SelectDropdown>
+							</Col>
+						</Row>
+					</Container>
+				</MyBox>
+				<Container>
+					{searchKeyword.length >= minimumKeyword ? (
+						<>
+							{(storeMovieList.status === STATUS_TYPES.SUCCESS && (
+								<>
+									{(storeMovieList.data.length && (
+										<Row space={2}>
+											<Col col={12} mb={5} textAlign="right">
+												<Link onClick={resetSearch}>Reset</Link>
+											</Col>
+											{storeMovieList.data.map((item, index) => (
+												<Col
+													key={index}
+													col={12}
+													mb={4}
+													responsive={{
+														xxs: {
+															col: 12,
+														},
+														xs: {
+															col: 6,
+														},
+														sm: {
+															col: 4,
+														},
+														md: {},
+														lg: {
+															col: 3,
+														},
+														xl: {},
+														xxl: {},
+													}}
+												>
+													<Movie
+														id={item.imdbID}
+														title={item.Title}
+														year={item.Year}
+														type={item.Type}
+														imageUrl={item.Poster}
+														dispatch={dispatch}
+														onPreviewImageClick={openModalPreviewImage}
+													/>
+												</Col>
+											))}
+										</Row>
+									)) || (
+										<>
+											No Movie Found! <Link onClick={resetSearch}>Reset</Link>
+										</>
+									)}
+								</>
+							)) ||
+								null}
+						</>
+					) : (
+						<>
+							Enter the keyword to find movie, minimum {minimumKeyword}{' '}
+							characters
+						</>
+					)}
+				</Container>
+			</Box>
+			{isModalPreviewImageShow && (
+				<ModalPreviewImage
+					imageUrl={previewImageUrl}
+					onClose={closeModalPreviewImage}
+				/>
+			)}
+		</>
 	);
 }
 

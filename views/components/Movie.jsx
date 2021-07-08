@@ -18,7 +18,7 @@ const {
 } = theme;
 
 const Wrapper = styled.div`
-	padding: 15px;
+	padding: 10px;
 	box-shadow: 1px 2px 10px #ccc;
 	height: 100%;
 	box-sizing: border-box;
@@ -47,9 +47,11 @@ const Type = styled.div`
 const Image = styled.img`
 	display: block;
 	width: 100%;
+	cursor: pointer;
+	max-width: 100%;
 `;
 
-function Index({ id, title, year, type, imageUrl }) {
+function Index({ id, title, year, type, imageUrl, onPreviewImageClick }) {
 	const link = {
 		pathname: ROUTES.MOVIE.href,
 		query: {
@@ -68,9 +70,7 @@ function Index({ id, title, year, type, imageUrl }) {
 			<Box>
 				{imageUrl && (
 					<Box mb={4}>
-						<Link link={link} isBlock>
-							<Image src={imgUrl} />
-						</Link>
+						<Image src={imgUrl} onClick={onPreviewImageClick} />
 					</Box>
 				)}
 				<Link link={link} isBlock>
