@@ -1,3 +1,57 @@
+## Anagram
+
+```
+const input = ['kita', 'atik', 'tika', 'aku', 'kia', 'makan', 'kua'];
+const output = getAnagram(input);
+
+console.log(output);
+
+/* Functions */
+
+function getAnagram(words) {
+	const anagram = [];
+  const grouped = {};
+
+  if (words && words.length) {
+    words.forEach((word) => {
+      const sorted = customSort(word);
+      if (grouped[sorted]) {
+        grouped[sorted].push(word);
+      } else {
+        grouped[sorted] = [word];
+      }
+    });
+  }
+
+	for (const sortedWord in grouped) {
+		anagram.push(grouped[sortedWord]);
+	}
+
+	return anagram;
+}
+
+function customSort(word) {
+	let arr = word.split('');
+	let isDone = false;
+	if (arr.length) {
+		while (!isDone) {
+			isDone = true;
+			for (let i = 1; i < arr.length; i++) {
+				if (arr[i - 1] > arr[i]) {
+					const temp = arr[i - 1];
+					arr[i - 1] = arr[i];
+					arr[i] = temp;
+					isDone = false;
+				}
+			}
+		}
+	}
+
+	return arr.length ? arr.join('') : '';
+}
+
+```
+
 ## Recommended Tools
 
 - Editor
