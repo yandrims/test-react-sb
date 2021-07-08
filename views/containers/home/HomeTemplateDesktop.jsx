@@ -16,40 +16,9 @@ import STATUS_TYPES from '../../../constants/statusTypes';
 /** components */
 import Movie from '../../components/Movie';
 import ModalPreviewImage from '../../components/ModalPreviewImage';
+import SearchBar from '../../components/SearchBar';
 
-const MyBox = styled.div`
-	padding: 10px 0 0;
-	border-bottom: 1px solid #ccc;
-	background: #fff;
-	margin-bottom: 20px;
-	position: sticky;
-	top: 0;
-	z-index: 9;
-`;
-
-const TextField = styled.input`
-	background: #fff;
-	padding: 0 15px;
-	border-radius: 5px;
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	border: 1px solid #ccc;
-	height: 36px;
-`;
-
-const SelectDropdown = styled.select`
-	background: #fff;
-	padding: 0 15px;
-	border-radius: 5px;
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	border: 1px solid #ccc;
-	height: 36px;
-`;
-
-const Loading = styled.div`
+const LoaderWrapper = styled.div`
 	position: fixed;
 	display: flex;
 	align-items: center;
@@ -64,7 +33,6 @@ const Loading = styled.div`
 
 function Index({
 	dispatch,
-	years,
 	storeMovieList,
 	searchKeyword,
 	onChangeSearchKeyword,
@@ -84,86 +52,17 @@ function Index({
 					<Container>{storeMovieList.error}</Container>
 				)}
 				{storeMovieList.status === STATUS_TYPES.LOADING && (
-					<Loading>
+					<LoaderWrapper>
 						<Loader />
-					</Loading>
+					</LoaderWrapper>
 				)}
-				<MyBox>
-					<Container>
-						<Row space={2}>
-							<Col
-								col={12}
-								mb={4}
-								responsive={{
-									xxs: {
-										col: 12,
-									},
-									xs: {
-										col: 12,
-									},
-									sm: {
-										col: 7,
-									},
-									md: {
-										col: 8,
-									},
-									lg: {
-										col: 9,
-									},
-									xl: {
-										col: 10,
-									},
-									xxl: {},
-								}}
-							>
-								<TextField
-									type="text"
-									placeholder="Search movie name"
-									value={searchKeyword}
-									onChange={onChangeSearchKeyword}
-								/>
-							</Col>
-							<Col
-								col={12}
-								mb={4}
-								responsive={{
-									xxs: {
-										col: 12,
-									},
-									xs: {
-										col: 12,
-									},
-									sm: {
-										col: 5,
-									},
-									md: {
-										col: 4,
-									},
-									lg: {
-										col: 3,
-									},
-									xl: {
-										col: 2,
-									},
-									xxl: {},
-								}}
-							>
-								<SelectDropdown
-									onChange={onChangeSearchYear}
-									value={searchYear || ''}
-								>
-									<option value="">Select Year</option>
-									{years.map((item, index) => (
-										<option key={index} value={item}>
-											{item}
-										</option>
-									))}
-								</SelectDropdown>
-							</Col>
-						</Row>
-					</Container>
-				</MyBox>
-				<Container>
+				<SearchBar
+					searchKeyword={searchKeyword}
+					onChangeSearchKeyword={onChangeSearchKeyword}
+					searchYear={searchYear}
+					onChangeSearchYear={onChangeSearchYear}
+				/>
+				<Container css={{ position: 'relative' }} pb={30}>
 					{searchKeyword.length >= minimumKeyword ? (
 						<>
 							{(storeMovieList.status === STATUS_TYPES.SUCCESS && (
@@ -222,6 +121,15 @@ function Index({
 							Enter the keyword to find movie, minimum {minimumKeyword}{' '}
 							characters
 						</>
+					)}
+					{storeMovieList.statusLoadMore === STATUS_TYPES.LOADING && (
+						<Box
+							textAlign="center"
+							py={5}
+							css={{ position: 'absolute', left: 0, bottom: 0, width: '100%' }}
+						>
+							<Loader />
+						</Box>
 					)}
 				</Container>
 			</Box>

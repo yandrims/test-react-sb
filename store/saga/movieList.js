@@ -10,12 +10,8 @@ import ACTION_TYPES from '../../constants/actionTypes';
 import ERROR_TYPES from '../../constants/errorTypes';
 
 /** helpers */
-import {
-	setHeaderAPI,
-	getErrorMessage,
-	paramsToString,
-} from '../../helpers/utils';
-import { isFunction } from '../../helpers/customFunctions';
+import { setHeaderAPI, getErrorMessage } from '../../helpers/utils';
+import { isFunction, paramsToString } from '../../helpers/customFunctions';
 
 const { API, API_KEY } = ENV;
 const modelName = 'MOVIE_LIST';
